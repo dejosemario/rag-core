@@ -1,11 +1,12 @@
 # 1. imports
 import os
 import uvicorn
+import subprocess
+import time
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
-
 
 from chunker import chunk_text
 from embeddings import get_embedding
@@ -30,7 +31,7 @@ def health():
     return JSONResponse(status_code=200, content={"status": "app is live!"})
 
 # 6. POST /upload endpoint
-@app.post("upload")
+@app.post("/upload")
 async def upload(files: list[UploadFile] = File(...)):
     for file in files:
         # save the file to file direcotry
@@ -79,8 +80,6 @@ async def prompt(request: PromptRequest):
         content={"answer": answer}
     )
 
-# 8. run the app
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=SERVER_PORT, reload=True)
-    
-    
+# 8. start ChromaDB automatically
+subprocess.Popen(["chroma", "run", "--port", "8000"])
+time.sleep(2) 
