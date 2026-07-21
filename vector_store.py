@@ -12,7 +12,7 @@ CHROMA_DB_HOST = os.getenv("CHROMA_DB_HOST", "localhost")
 CHROMA_DB_PORT = int(os.getenv("CHROMA_DB_PORT", 8080))
 
 # 3. connect to chromeDb client using the host and port
-client = chromadb.HttpClientlient(
+client = chromadb.HttpClient(
     host=CHROMA_DB_HOST,
     port=CHROMA_DB_PORT
 )   
