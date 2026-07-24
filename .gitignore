@@ -4,5 +4,6 @@ __pycache__/
 *.pyc
 .DS_Store
 data/
+chroma/
 chroma.sqlite3
 *.sqlite3
