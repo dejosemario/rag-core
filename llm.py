@@ -1,6 +1,6 @@
 # 1. imports
 import os
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 # 2. load env variables (GEMINI_API_KEY, LLM_MODEL_NAME)
@@ -10,8 +10,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gemini-2.5-flash")
 
 # 3. configure the Gemini client using the API key
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel(LLM_MODEL_NAME)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 # 4. define a function called generate_response(query, context_chunks)
@@ -32,6 +31,9 @@ def generate_response(query: str, context_chunks: list[str]) -> str:
     Answer:"""
 
     # send to Gemini and get response
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(        
+        model=LLM_MODEL_NAME,
+        contents=prompt
+        )
     
     return response.text
