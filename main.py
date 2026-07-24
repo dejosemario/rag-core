@@ -82,4 +82,4 @@ async def prompt(request: PromptRequest):
 
 # 8. start ChromaDB automatically
 subprocess.Popen(["chroma", "run", "--port", "8000"])
-time.sleep(2) 
+time.sleep(8) 
