@@ -18,6 +18,7 @@ load_dotenv()
 
 RAG_DATA_DIR = os.getenv("RAG_DATA_DIR", "./data")
 SERVER_PORT = int(os.getenv("SERVER_PORT", 8080))
+CHROMA_DB_PORT = os.getenv("CHROMA_DB_PORT", "8000")
 
 # 3. initialize FastAPI app
 app = FastAPI()
@@ -81,5 +82,5 @@ async def prompt(request: PromptRequest):
     )
 
 # 8. start ChromaDB automatically
-subprocess.Popen(["chroma", "run", "--port", "8000"])
+subprocess.Popen(["chroma", "run", "--port", CHROMA_DB_PORT])
 time.sleep(8) 
