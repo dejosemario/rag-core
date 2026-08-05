@@ -2,6 +2,7 @@
 import os
 from google import genai
 from dotenv import load_dotenv
+from google.genai import types
 
 # 2. load env variables (GEMINI_API_KEY, LLM_MODEL_NAME)
 load_dotenv()
@@ -33,7 +34,10 @@ def generate_response(query: str, context_chunks: list[str]) -> str:
     # send to Gemini and get response
     response = client.models.generate_content(        
         model=LLM_MODEL_NAME,
-        contents=prompt
+        contents=prompt,
+        config=types.GenerateContentConfig(
+        max_output_tokens=500
         )
+    )
     
     return response.text
