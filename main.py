@@ -13,6 +13,9 @@ from embeddings import get_embedding
 from vector_store import add_documents, search
 from llm import generate_response
 
+import pypdf
+import io
+
 # 2. load env variables (RAG_DATA_DIR, SERVER_PORT)
 load_dotenv()
 
@@ -43,7 +46,13 @@ async def upload(files: list[UploadFile] = File(...)):
             f.write(contents)
             
         # extract the  text from the file
-        text = contents.decode("utf-8", errors="ignore")
+        text = ""
+        if file.filename.endswith(".pdf"):
+            pdf_reader = pypdf.PdfReader(io.BytesIO(contents))
+            for page in pdf_reader.pages:
+                text += page.extract_text() or ""
+        else:
+            text = contents.decode("utf-8", errors="ignore")
         
         # pass text to chunker.py -> get chunks
         chunks = chunk_text(text)
